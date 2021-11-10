@@ -1,10 +1,9 @@
 import {client, urlFor} from '../client'
-import Image from 'next/image'
+import { useRouter } from 'next/router'
 import styles from '../styles/Home.module.css'
 
 export default function Home(props) {
-  // props = Array.from(props)
-  console.log(Object.values(props),"@@@@@@@@@@@@@@@@@@@@@@@@@@")
+  const router = useRouter()
   return (
     <div className={styles.container}>
 
@@ -16,7 +15,10 @@ export default function Home(props) {
         <div className={styles.grid}>
           {
             Object.values(props).map((item,i) => (
-              <a href="https://nextjs.org/docs" className={styles.card} key={i}>
+              <a onClick={() => router.push({
+                pathname: '/player',
+                query: { pname: item.name },
+              })} className={styles.card} key={i}>
                 <img src={urlFor(item?.mainImage).width(250).height(150).url()}/>
                 <h2>{item?.name} &rarr;</h2>
                 <p>{item?.description}</p>
@@ -25,12 +27,6 @@ export default function Home(props) {
           }
         </div>
       </main>
-
-      <footer className={styles.footer}>
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-      </footer>
     </div>
   )
 }
